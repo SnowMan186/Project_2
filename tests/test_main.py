@@ -1,42 +1,73 @@
 import unittest
-from src.main import Product, Category, load_data_from_json
+from src.category import Category
+from src.product import Product
+from unittest.mock import patch
 
 
 class TestProduct(unittest.TestCase):
-    def test_product_initialization(self):
-        p = Product("Test Phone", "Description of phone", 10000.0, 10)
-        self.assertEqual(p.name, "Test Phone")
-        self.assertEqual(p.description, "Description of phone")
-        self.assertEqual(p.price, 10000.0)
-        self.assertEqual(p.quantity, 10)
+
+    def test_new_product_creation(self):
+        # Проверка создания нового товара
+        params = {
+            'name': 'Телефон',
+            'description': 'Новый смартфон',
+            'price': 10000.0,
+            'quantity': 10
+        }
+        product = Product.new_product(params)
+        self.assertEqual(product.name, 'Телефон')
+        self.assertEqual(product.price, 10000.0)
+        self.assertEqual(product.quantity, 10)
+
+    def test_duplicate_product_handling(self):
+        # Проверка обработки дублирующих товаров
+        existing_products = [
+            Product('Телефон', '', 10000.0, 10),
+            Product('Планшет', '', 20000.0, 5)
+        ]
+        duplicate_params = {
+            'name': 'телефон',
+            'description': '',
+            'price': 12000.0,
+            'quantity': 5
+        }
+        updated_product = Product.new_product(duplicate_params, existing_products)
+        self.assertEqual(updated_product.quantity, 15)
+        self.assertEqual(updated_product.price, 12000.0)
+
+    def test_price_setter_protection(self):
+        # Проверка защиты от неправильной установки цены
+        product = Product('Телефон', '', 10000.0, 10)
+        product.price = -5000.0
+        self.assertEqual(product.price, 10000.0)
+
+        # Проверка снижения цены с подтверждением
+        with patch('builtins.input', return_value='y'):
+            product.price = 8000.0
+        self.assertEqual(product.price, 8000.0)
 
 
 class TestCategory(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        """Очистка глобального состояния перед всеми тестами"""
-        Category.category_count = 0
-        Category.product_count = 0
 
-    def setUp(self):
-        """Подготовка данных для каждого отдельного теста"""
-        self.p1 = Product("Phone A", "Desc A", 15000.0, 5)
-        self.p2 = Product("Phone B", "Desc B", 20000.0, 10)
-        self.cat = Category("Телефоны", "Раздел телефонов", [self.p1, self.p2])
+    def test_add_product_method(self):
+        # Проверка метода добавления товара в категорию
+        category = Category('Электроника', '', [])
+        product = Product('Ноутбук', '', 50000.0, 3)
+        category.add_product(product)
+        self.assertEqual(len(category._products), 1)
+        self.assertEqual(Category._product_count, 1)
 
-    def test_category_initialization(self):
-        self.assertEqual(self.cat.name, "Телефоны")
-        self.assertEqual(self.cat.description, "Раздел телефонов")
-        self.assertEqual(len(self.cat.products), 2)
-        self.assertEqual(Category.category_count, 1)
-
-    def test_load_data_from_json(self):
-        categories = load_data_from_json('data.json')
-        self.assertIsInstance(categories, list)
-        self.assertGreater(len(categories), 0)
-        first_cat = categories[0]
-        self.assertEqual(first_cat.name, "Смартфоны")
-        self.assertEqual(len(first_cat.products), 3)
+    def test_products_getter(self):
+        # Проверка геттера списка товаров
+        category = Category('Электронные товары', '', [
+            Product('Монитор', '', 15000.0, 10),
+            Product('Колонки', '', 3000.0, 5)
+        ])
+        expected_output = (
+            "Монитор, 15000.00 руб. Остаток: 10 шт.\n"
+            "Колонки, 3000.00 руб. Остаток: 5 шт."
+        )
+        self.assertEqual(category.products, expected_output)
 
 
 if __name__ == '__main__':

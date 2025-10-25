@@ -1,26 +1,6 @@
 import json
-
-
-class Product:
-    def __init__(self, name: str, description: str, price: float, quantity: int):
-        self.name = name            # Название продукта
-        self.description = description   # Описание продукта
-        self.price = price          # Цена продукта
-        self.quantity = quantity    # Количество на складе
-
-
-class Category:
-    category_count = 0  # Общий счётчик созданных категорий
-    product_count = 0  # Общий счётчик продуктов во всех категориях
-
-    def __init__(self, name: str, description: str, products: list):
-        self.name = name  # Название категории
-        self.description = description  # Описание категории
-        self.products = products  # Список продуктов категории
-
-        # Автоматическое обновление общих счётчиков
-        Category.category_count += 1  # Добавляем категорию
-        Category.product_count += len(self.products)  # Добавляем количество продуктов
+from src.category import Category
+from src.product import Product
 
 
 # Создаем первые три продукта
