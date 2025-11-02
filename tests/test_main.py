@@ -70,5 +70,31 @@ class TestCategory(unittest.TestCase):
         self.assertEqual(category.products, expected_output)
 
 
+class TestNewFunctionality(unittest.TestCase):
+
+    def test_new_product_class_method(self):
+        """
+        Проверка нового функционала по созданию продукта
+        """
+        params = {'name': 'Новую модель телефона', 'description': 'Самый новый смартфон', 'price': 120000.0,
+                  'quantity': 10}
+        product = Product.new_product(params)
+        self.assertEqual(product.name, 'Новую модель телефона')
+        self.assertEqual(product.price, 120000.0)
+        self.assertEqual(product.quantity, 10)
+
+    def test_total_cost_in_category(self):
+        """
+        Проверка суммы стоимости всех товаров в категории
+        """
+        product1 = Product("Notebook Acer", "16 ГБ RAM", 30000.0, 10)
+        product2 = Product("Monitor LG", "IPS матрица", 15000.0, 5)
+        category = Category("Компьютеры", "Все компьютерные аксессуары", [product1])
+        category.add_product(product2)
+        final_sum = (product1.price * product1.quantity) + (product2.price * product2.quantity)
+        calculated_sum = sum([p.price * p.quantity for p in category._products])
+        self.assertAlmostEqual(final_sum, calculated_sum)
+
+
 if __name__ == '__main__':
     unittest.main()

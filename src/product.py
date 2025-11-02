@@ -5,6 +5,15 @@ class Product:
         self.__price = price
         self.quantity = quantity
 
+    def __str__(self):
+        """Стрковое представления продукта"""
+        return f"{self.name}, {self.price:.2f} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other):
+        """Суммирует общую стоимость двух товаров на складее
+        Формула: цена * количествол первого товара + цена * количество второго товара"""
+        return self.price * self.quantity + other.price * other.quantity
+
     @classmethod
     def new_product(cls, params_dict: dict, existing_products=None):
         name = params_dict.get('name', '').lower().strip()
