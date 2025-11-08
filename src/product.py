@@ -12,7 +12,7 @@ class Product:
     def __add__(self, other):
         """Суммирует общую стоимость двух товаров на складее
         Формула: цена * количествол первого товара + цена * количество второго товара"""
-        if not isinstance(other, type(self)):
+        if type(other) != type(self):
             raise TypeError("Нельзя складывать товары разного типа")
         return self.price * self.quantity + other.price * other.quantity
 

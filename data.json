@@ -1,39 +1,42 @@
-
 [
-  {
-    "name": "Смартфоны",
-    "description": "Смартфоны, как средство не только коммуникации, но и получение дополнительных функций для удобства жизни",
-    "products": [
-      {
-        "name": "Samsung Galaxy C23 Ultra",
-        "description": "256GB, Серый цвет, 200MP камера",
-        "price": 180000.0,
-        "quantity": 5
-      },
-      {
-        "name": "Iphone 15",
-        "description": "512GB, Gray space",
-        "price": 210000.0,
-        "quantity": 8
-      },
-      {
-        "name": "Xiaomi Redmi Note 11",
-        "description": "1024GB, Синий",
-        "price": 31000.0,
-        "quantity": 14
-      }
-    ]
-  },
-  {
-    "name": "Телевизоры",
-    "description": "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником",
-    "products": [
-      {
-        "name": "55\" QLED 4K",
-        "description": "Фоновая подсветка",
-        "price": 123000.0,
-        "quantity": 7
-      }
-    ]
-  }
+    {
+        "name": "Смартфоны",
+        "description": "Самые популярные модели телефонов.",
+        "products": [
+            {
+                "name": "Samsung Galaxy S23 Ultra",
+                "description": "Экран AMOLED, 12 Гб RAM, батарея 5000 мАч",
+                "price": 120000.0,
+                "quantity": 10,
+                "efficiency": 95.5,
+                "model": "Galaxy S23 Ultra",
+                "memory": 256,
+                "color": "Черный"
+            },
+            {
+                "name": "Apple iPhone 15 Pro Max",
+                "description": "A17 Bionic, тройная камера, Face ID",
+                "price": 180000.0,
+                "quantity": 5,
+                "efficiency": 98.2,
+                "model": "iPhone 15 Pro Max",
+                "memory": 512,
+                "color": "Белый"
+            }
+        ]
+    },
+    {
+        "name": "Телевизоры",
+        "description": "Модели телевизоров с высоким разрешением.",
+        "products": [
+            {
+                "name": "LG OLED65C2PUA",
+                "description": "OLED экран, поддержка HDR, Android TV",
+                "price": 130000.0,
+                "quantity": 7,
+                "screen_size": "65 дюймов",
+                "resolution": "4K UHD"
+            }
+        ]
+    }
 ]
