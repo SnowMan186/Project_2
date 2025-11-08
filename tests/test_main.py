@@ -1,6 +1,6 @@
 import unittest
 from src.category import Category
-from src.product import Product
+from src.product import Product, Smartphone, LawnGrass
 from unittest.mock import patch
 
 
@@ -94,6 +94,47 @@ class TestNewFunctionality(unittest.TestCase):
         final_sum = (product1.price * product1.quantity) + (product2.price * product2.quantity)
         calculated_sum = sum([p.price * p.quantity for p in category._products])
         self.assertAlmostEqual(final_sum, calculated_sum)
+
+    def setUp(self):
+        self.smartphone = Smartphone("Galaxy S23", "", 180000.0, 5, 95.5, "S23", 256, "Black")
+        self.lawn_grass = LawnGrass("Газонная трава", "", 500.0, 20, "Россия", "7 дней", "Green")
+
+    def test_create_product(self):
+        product = Product("Apple iPhone", "Описание", 150000.0, 10)
+        self.assertIsInstance(product, Product)
+        self.assertEqual(product.name, "Apple iPhone")
+        self.assertEqual(product.price, 150000.0)
+        self.assertEqual(product.quantity, 10)
+
+    def test_smartphone_attributes(self):
+        self.assertEqual(self.smartphone.efficiency, 95.5)
+        self.assertEqual(self.smartphone.model, "S23")
+        self.assertEqual(self.smartphone.memory, 256)
+        self.assertEqual(self.smartphone.color, "Black")
+
+    def test_lawn_grass_attributes(self):
+        self.assertEqual(self.lawn_grass.country, "Россия")
+        self.assertEqual(self.lawn_grass.germination_period, "7 дней")
+        self.assertEqual(self.lawn_grass.color, "Green")
+
+    def test_product_addition(self):
+        another_phone = Smartphone("iPhone X", "", 120000.0, 3, 90.0, "X", 128, "White")
+        result = self.smartphone + another_phone
+        self.assertEqual(result, 1260000.0)
+
+    def test_type_error_on_mixed_addition(self):
+        with self.assertRaises(TypeError):
+            self.smartphone + self.lawn_grass
+
+    def test_adding_to_category(self):
+        category = Category("Каталог", "Продукты", [])
+        category.add_product(self.smartphone)
+        self.assertIn(self.smartphone, category._products)
+
+    def test_wrong_type_in_category(self):
+        with self.assertRaises(TypeError):
+            category = Category("Каталог", "Продукты", [])
+            category.add_product("Некорректный объект")
 
 
 if __name__ == '__main__':

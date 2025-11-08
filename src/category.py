@@ -14,17 +14,19 @@ class Category:
         Category._product_count += len(self._products)
 
     def __str__(self):
-        """Строковое представление категории"""
         total_quantity = sum([p.quantity for p in self._products])
-        return f"{self.name}, количество продуктов: {total_quantity} шт."
+        return f"{self.name}, всего товаров: {total_quantity}"
 
     def add_product(self, product: 'Product'):
-        self._products.append(product)
-        Category._product_count += 1
+        if isinstance(product, Product):
+            self._products.append(product)
+            Category._product_count += 1
+        else:
+            raise TypeError("Можно добавлять только объекты класса Product или его потомков")
 
     @property
     def products(self):
         result = ""
         for product in self._products:
-            result += f"{product.name}, {product.price:.2f} руб. Остаток: {product.quantity} шт.\n"
+            result += f"{product}\n"
         return result.strip()

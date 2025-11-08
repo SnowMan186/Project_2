@@ -1,28 +1,20 @@
 import json
 from src.category import Category
-from src.product import Product
+from src.product import Product, Smartphone, LawnGrass
+
+# Создание товаров
+smartphone1 = Smartphone("Samsung Galaxy S23 Ultra", "256ГБ, Серый цвет, 200МП камера", 180000.0, 5, 95.5, "S23 Ultra",
+                         256, "Серый")
+smartphone2 = Smartphone("iPhone 15 Pro Max", "512ГБ, Глубокий фиолетовый", 210000.0, 8, 98.2, "Pro Max", 512,
+                         "Deep purple")
+lawn_grass1 = LawnGrass("Газонная трава", "Лучшая для сада", 500.0, 20, "Россия", "7 дней", "Зелёный")
+
+# Категории товаров
+category_smartphones = Category("Смартфоны", "Современнейшие гаджеты", [smartphone1, smartphone2])
+category_lawn_grass = Category("Газонная трава", "Лучшие сорта", [lawn_grass1])
 
 
-# Создаем первые три продукта
-product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
-product2 = Product("iPhone 15 Pro Max", "512GB, Deep Purple", 210000.0, 8)
-product3 = Product("Xiaomi Redmi Note 11", "128GB, Blue", 31000.0, 14)
-
-# Создаем первую категорию
-category1 = Category("Смартфоны", "Самые современные смартфоны", [product1, product2, product3])
-
-print(f"Количество категорий: {Category.category_count}")  # Выведет: 1
-print(f"Общее количество товаров: {Category.product_count}")  # Выведет: 3
-
-# Создаем ещё один товар и вторую категорию
-product4 = Product("LG OLED TV", "55 дюймов, 4K HDR", 123000.0, 7)
-category2 = Category("Телевизоры", "Современные телевизоры", [product4])
-
-print(f"Количество категорий: {Category.category_count}")  # Выведет: 2
-print(f"Общее количество товаров: {Category.product_count}")  # Выведет: 4
-
-
-# Вспомогательная функция для загрузки данных из JSON
+# Загрузка данных из JSON
 def load_data_from_json(file_path: str):
     with open(file_path, encoding='utf-8') as file:
         data = json.load(file)
@@ -30,7 +22,7 @@ def load_data_from_json(file_path: str):
         for item in data:
             products_list = []
             for prod in item['products']:
-                p = Product(prod['name'], prod['description'], prod['price'], prod['quantity'])
+                p = Product(**prod)
                 products_list.append(p)
 
             cat = Category(item['name'], item['description'], products_list)
@@ -38,11 +30,7 @@ def load_data_from_json(file_path: str):
         return categories
 
 
-categories = load_data_from_json('data.json')
-
-# Запуск примера
 if __name__ == "__main__":
-    categories = load_data_from_json("data.json")
-    for cat in categories:
-        print(f"Категория: {cat.name}")
-        print(f"Товары: {[prod.name for prod in cat.products]}")
+    smartphones = load_data_from_json("data.json")
+    for cat in smartphones:
+        print(f"КАТЕГОРИЯ: {cat.name}\nОПИСАНИЕ: {cat.description}\nТОВАРЫ:\n{cat.products}\n")

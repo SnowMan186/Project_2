@@ -1,6 +1,6 @@
 class Product:
     def __init__(self, name: str, description: str, price: float, quantity: int):
-        self.name = name.capitalize()
+        self.name = name
         self.description = description
         self.__price = price
         self.quantity = quantity
@@ -12,6 +12,8 @@ class Product:
     def __add__(self, other):
         """Суммирует общую стоимость двух товаров на складее
         Формула: цена * количествол первого товара + цена * количество второго товара"""
+        if not isinstance(other, type(self)):
+            raise TypeError("Нельзя складывать товары разного типа")
         return self.price * self.quantity + other.price * other.quantity
 
     @classmethod
@@ -51,3 +53,22 @@ class Product:
                 return
 
         self.__price = new_price
+
+
+class Smartphone(Product):
+    def __init__(self, name: str, description: str, price: float, quantity: int,
+                 efficiency: float, model: str, memory: int, color: str):
+        super().__init__(name, description, price, quantity)
+        self.efficiency = efficiency
+        self.model = model
+        self.memory = memory
+        self.color = color
+
+
+class LawnGrass(Product):
+    def __init__(self, name: str, description: str, price: float,
+                 quantity: int, country: str, germination_period: str, color: str):
+        super().__init__(name, description, price, quantity)
+        self.country = country
+        self.germination_period = germination_period
+        self.color = color
