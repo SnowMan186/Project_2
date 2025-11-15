@@ -1,13 +1,10 @@
-from src.base_product import Product
-from src.log_mixin import LogMixin
+from src.base_product import BaseProduct
+from .log_mixin import LogMixin
 
 
-class Product(LogMixin):
+class Product(LogMixin, BaseProduct):
     def __init__(self, name: str, description: str, price: float, quantity: int):
-        super().__init__(name, description, price, quantity)
-
-class Product(Product):
-    def __init__(self, name: str, description: str, price: float, quantity: int):
+        super().__init__()
         self.name = name
         self.description = description
         self._price = price

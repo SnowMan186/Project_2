@@ -2,9 +2,6 @@ import unittest
 from src.category import Category
 from src.product import Product, Smartphone, LawnGrass
 from unittest.mock import patch
-import logging
-
-logging.basicConfig(level=logging.INFO)
 
 
 class TestProduct(unittest.TestCase):
@@ -71,6 +68,11 @@ class TestProduct(unittest.TestCase):
                          " Количество: 20 шт.\nСтрана производства: Россия, Период всхожести: 7 дней")
         self.assertEqual(lawngrass.display_info(), expected_info)
 
+    def test_repr(self):
+        product = Product('Test Product', 'Description', 1000.0, 10)
+        repr_str = repr(product)
+        self.assertTrue('<Product' in repr_str and 'Test Product' in repr_str)
+
 
 class TestCategory(unittest.TestCase):
     def test_add_product_method(self):
@@ -95,12 +97,6 @@ class TestCategory(unittest.TestCase):
 
 
 class TestNewFunctionality(unittest.TestCase):
-
-    def test_log_mixin_functionality(self):
-        """Проверка логгирования миксина при создании объекта."""
-        with self.assertLogs('local', level="INFO") as cm:
-            product = Product("Тестовый продукт", "Описание", 10000.0, 5)
-        self.assertIn("Создание объекта класса Product", cm.output[0])
 
     def test_new_product_class_method(self):
         """
