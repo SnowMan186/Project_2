@@ -17,7 +17,7 @@ class Category:
         total_quantity = sum([p.quantity for p in self._products])
         return f"{self.name}, всего товаров: {total_quantity}"
 
-    def add_product(self, product: 'Product'):
+    def add_product(self, product):
         if isinstance(product, Product):
             self._products.append(product)
             Category._product_count += 1

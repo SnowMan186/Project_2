@@ -1,8 +1,13 @@
-class Product:
+from src.base_product import BaseProduct
+
+from src.log_mixin import LogMixin
+
+
+class Product(BaseProduct):
     def __init__(self, name: str, description: str, price: float, quantity: int):
         self.name = name
         self.description = description
-        self.__price = price
+        self._price = price
         self.quantity = quantity
 
     def __str__(self):
@@ -34,15 +39,16 @@ class Product:
 
     @property
     def price(self):
-        return self.__price
+        return self._price
 
     @price.setter
     def price(self, new_price):
         if new_price <= 0:
             print("Ошибка: Цена не должна быть нулевой или отрицательной!")
             return
+        self._price = new_price
 
-        old_price = self.__price
+        old_price = self._price
         if new_price < old_price:
             confirm = input(
                 f"Внимание! Вы пытаетесь снизить цену с {old_price:.2f} руб. до {new_price:.2f} руб." +
@@ -52,7 +58,7 @@ class Product:
                 print("Изменение цены отменено.")
                 return
 
-        self.__price = new_price
+        self._price = new_price
 
 
 class Smartphone(Product):
