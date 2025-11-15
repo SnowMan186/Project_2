@@ -26,7 +26,7 @@ def load_data_from_json(file_path: str):
                 if category_data['name'] == 'Смартфоны':
                     product = Smartphone(**product_dict)
                 elif category_data['name'] == 'Газонная трава':
-                    product = ()
+                    product = LawnGrass(**product_dict)
                 else:
                     product = Product(**product_dict)
                 products.append(product)
@@ -47,7 +47,7 @@ if __name__ == "__main__":
 
     # Создание категорий товаров
     category_smartphones = Category("Смартфоны", "Современные гаджеты", [smartphone1, smartphone2])
-    category_lawn_grass = Category("Газонная трава", "Лучшие сорта", [])  # Изначально пустая категория
+    category_lawn_grass = Category("Газонная трава", "Лучшие сорта", [])
 
     # Добавляем товар в категорию газонных трав
     category_lawn_grass.add_product(lawn_grass1)
