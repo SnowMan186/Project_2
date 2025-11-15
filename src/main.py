@@ -1,6 +1,10 @@
 import json
 from src.category import Category
 from src.product import Product, Smartphone, LawnGrass
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
 
 # Создание товаров
 smartphone1 = Smartphone("Samsung Galaxy S23 Ultra", "256ГБ, Серый цвет, 200МП камера", 180000.0, 5, 95.5, "S23 Ultra",

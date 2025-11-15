@@ -1,9 +1,12 @@
-from src.base_product import BaseProduct
-
+from src.base_product import Product
 from src.log_mixin import LogMixin
 
 
-class Product(BaseProduct):
+class Product(LogMixin):
+    def __init__(self, name: str, description: str, price: float, quantity: int):
+        super().__init__(name, description, price, quantity)
+
+class Product(Product):
     def __init__(self, name: str, description: str, price: float, quantity: int):
         self.name = name
         self.description = description
@@ -20,6 +23,10 @@ class Product(BaseProduct):
         if type(other) != type(self):
             raise TypeError("Нельзя складывать товары разного типа")
         return self.price * self.quantity + other.price * other.quantity
+
+    def display_info(self):
+        """Методом отображается информация о продукте."""
+        return f"Название: {self.name}, Цена: {self.price:.2f} руб., Количество: {self.quantity} шт."
 
     @classmethod
     def new_product(cls, params_dict: dict, existing_products=None):
@@ -70,11 +77,28 @@ class Smartphone(Product):
         self.memory = memory
         self.color = color
 
+    def display_info(self):
+        """Расширенный метод отображения информации для смартфонов."""
+        basic_info = super().display_info()
+        additional_info = f"\nМодель: {self.model}, Энергоэффективность: {self.efficiency}%"
+        return basic_info + additional_info
+
 
 class LawnGrass(Product):
-    def __init__(self, name: str, description: str, price: float,
-                 quantity: int, country: str, germination_period: str, color: str):
+    def __init__(self, name: str, description: str, price: float, quantity: int,
+                 country: str, germination_period: str, color: str):
         super().__init__(name, description, price, quantity)
         self.country = country
         self.germination_period = germination_period
         self.color = color
+
+    def display_info(self):
+        """Расширенный метод отображения информации для газонной травы."""
+        basic_info = super().display_info()
+        additional_info = f"\nСтрана производства: {self.country}, Период всхожести: {self.germination_period}"
+        return basic_info + additional_info
+
+
+if __name__ == "__main__":
+    product = Product('Продукт1', 'Описание продукта', 1200, 10)
+    print(product.display_info())

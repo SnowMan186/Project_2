@@ -2,6 +2,9 @@ import unittest
 from src.category import Category
 from src.product import Product, Smartphone, LawnGrass
 from unittest.mock import patch
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 
 class TestProduct(unittest.TestCase):
@@ -46,11 +49,32 @@ class TestProduct(unittest.TestCase):
             product.price = 8000.0
         self.assertEqual(product.price, 8000.0)
 
+    def test_display_info(self):
+        """Проверка отображения информации о продукте."""
+        product = Product("Телефон", "Простой телефон", 10000.0, 5)
+        expected_info = "Название: Телефон, Цена: 10000.00 руб., Количество: 5 шт."
+        self.assertEqual(product.display_info(), expected_info)
+
+    def test_smartphone_display_info(self):
+        """Проверка отображения информации о смартфоне."""
+        smartphone = Smartphone("Galaxy S23", "Описание",
+                                180000.0, 5, 95.5, "S23", 256, "Black")
+        expected_info = ("Название: Galaxy S23, Цена: 180000.00 руб.,"
+                         " Количество: 5 шт.\nМодель: S23, Энергоэффективность: 95.5%")
+        self.assertEqual(smartphone.display_info(), expected_info)
+
+    def test_lawngrass_display_info(self):
+        """Проверка отображения информации о газонной траве."""
+        lawngrass = LawnGrass("Газонная трава", "Описание",
+                              500.0, 20, "Россия", "7 дней", "Зелёный")
+        expected_info = ("Название: Газонная трава, Цена: 500.00 руб.,"
+                         " Количество: 20 шт.\nСтрана производства: Россия, Период всхожести: 7 дней")
+        self.assertEqual(lawngrass.display_info(), expected_info)
+
 
 class TestCategory(unittest.TestCase):
-
     def test_add_product_method(self):
-        # Проверка метода добавления товара в категорию
+        """Проверка метода добавления товара в категорию."""
         category = Category('Электроника', '', [])
         product = Product('Ноутбук', '', 50000.0, 3)
         category.add_product(product)
@@ -58,19 +82,25 @@ class TestCategory(unittest.TestCase):
         self.assertEqual(Category._product_count, 1)
 
     def test_products_getter(self):
-        # Проверка геттера списка товаров
+        """Проверка геттера списка товаров."""
         category = Category('Электронные товары', '', [
             Product('Монитор', '', 15000.0, 10),
             Product('Колонки', '', 3000.0, 5)
         ])
         expected_output = (
-            "Монитор, 15000.00 руб. Остаток: 10 шт.\n"
-            "Колонки, 3000.00 руб. Остаток: 5 шт."
+            "Монитор, 15000.00 руб., остаток: 10 шт.\n"
+            "Колонки, 3000.00 руб., остаток: 5 шт."
         )
         self.assertEqual(category.products, expected_output)
 
 
 class TestNewFunctionality(unittest.TestCase):
+
+    def test_log_mixin_functionality(self):
+        """Проверка логгирования миксина при создании объекта."""
+        with self.assertLogs('local', level="INFO") as cm:
+            product = Product("Тестовый продукт", "Описание", 10000.0, 5)
+        self.assertIn("Создание объекта класса Product", cm.output[0])
 
     def test_new_product_class_method(self):
         """
