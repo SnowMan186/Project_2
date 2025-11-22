@@ -162,6 +162,22 @@ class TestNewFunctionality(unittest.TestCase):
             category = Category("Каталог", "Продукты", [])
             category.add_product("Некорректный объект")
 
+    def test_average_price_empty_list(self):
+        """Проверка среднего значения цены при пустой категории."""
+        empty_category = Category("Empty Category", "No items here", [])
+        self.assertEqual(empty_category.middle_price(), 0)
+
+    def test_non_numeric_data_input(self):
+        """Проверка реакции на ввод текста вместо чисел."""
+        invalid_params = {
+            'name': 'Телефон',
+            'description': 'Новый смартфон',
+            'price': 'десять тысяч рублей',
+            'quantity': 'дцать'
+        }
+        with self.assertRaises(ValueError):
+            Product(**invalid_params)
+
 
 if __name__ == '__main__':
     unittest.main()

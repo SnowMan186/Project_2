@@ -30,3 +30,11 @@ class Category:
         for product in self._products:
             result += f"{product.name}, {product.price:.2f} руб., остаток: {product.quantity} шт.\n"
         return result.strip()
+
+    def middle_price(self):
+        try:
+            total_price = sum(product.price for product in self._products)
+            average_price = total_price / len(self._products)
+            return round(average_price, 2)
+        except ZeroDivisionError:
+            return 0

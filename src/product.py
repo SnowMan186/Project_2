@@ -4,6 +4,10 @@ from .log_mixin import LogMixin
 
 class Product(LogMixin, BaseProduct):
     def __init__(self, name: str, description: str, price: float, quantity: int):
+        if quantity == 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен.")
+        elif not isinstance(price, (float, int)) or not isinstance(quantity, int):
+            raise ValueError("Цена и количество должны быть числами.")
         super().__init__()
         self.name = name
         self.description = description
